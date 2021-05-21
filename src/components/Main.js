@@ -18,6 +18,11 @@ function Main({onEditAvatar, onEditProfile, onAddPlace}) {
   React.useEffect(() => {
     api.getInitialCards().then((data) => {
       console.log(data)
+      setCards(data.map((item) => ({
+        id: item._id,
+        link: item.link,
+        name: item.name
+      })))
     })
   })
 
