@@ -5,15 +5,21 @@ function Main({onEditAvatar, onEditProfile, onAddPlace}) {
   const [userName, setUserName] = React.useState('sadf')
   const [userDescription, setUserDescription] = React.useState()
   const [userAvatar, setUserAvatar] = React.useState()
+  const [cards, setCards] = React.useState([])
 
   React.useEffect(() => {
-      api.getUserInfo().then((data) => {
-        // console.log(data)
-        setUserName(data.name)
-        setUserDescription(data.about)
-        setUserAvatar(data.avatar)
-      })
+    api.getUserInfo().then((data) => {
+      setUserName(data.name)
+      setUserDescription(data.about)
+      setUserAvatar(data.avatar)
+    })
   }, [])
+
+  React.useEffect(() => {
+    api.getInitialCards().then((data) => {
+      console.log(data)
+    })
+  })
 
   return (
     <main className="main">
