@@ -1,5 +1,6 @@
 import React from 'react'
 import { api } from '../utils/Api'
+import Card from './Card'
 
 function Main({onEditAvatar, onEditProfile, onAddPlace}) {
   const [userName, setUserName] = React.useState('sadf')
@@ -17,11 +18,12 @@ function Main({onEditAvatar, onEditProfile, onAddPlace}) {
 
   React.useEffect(() => {
     api.getInitialCards().then((data) => {
-      console.log(data)
+      // console.log(data)
       setCards(data.map((item) => ({
         id: item._id,
         link: item.link,
-        name: item.name
+        name: item.name,
+        likes: item.likes
       })))
     })
   })
@@ -62,7 +64,11 @@ function Main({onEditAvatar, onEditProfile, onAddPlace}) {
         </button>
       </section>
       <section className="elements-container">
-        <ul className="elements"></ul>
+        <ul className="elements">
+          {
+            cards.map(({id, ...props}) => <Card key={id} {...props} />)
+          }
+        </ul>
       </section>
     </main>
   )
