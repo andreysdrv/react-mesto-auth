@@ -2,8 +2,8 @@ import React from 'react'
 import { api } from '../utils/Api'
 import Card from './Card'
 
-function Main({onEditAvatar, onEditProfile, onAddPlace}) {
-  const [userName, setUserName] = React.useState('sadf')
+function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
+  const [userName, setUserName] = React.useState()
   const [userDescription, setUserDescription] = React.useState()
   const [userAvatar, setUserAvatar] = React.useState()
   const [cards, setCards] = React.useState([])
@@ -14,11 +14,11 @@ function Main({onEditAvatar, onEditProfile, onAddPlace}) {
       setUserDescription(data.about)
       setUserAvatar(data.avatar)
     })
+    .catch((err) => console.log(err))
   }, [])
 
   React.useEffect(() => {
     api.getInitialCards().then((data) => {
-      // console.log(data)
       setCards(data.map((item) => ({
         id: item._id,
         link: item.link,
@@ -26,7 +26,8 @@ function Main({onEditAvatar, onEditProfile, onAddPlace}) {
         likes: item.likes
       })))
     })
-  })
+    .catch((err) => console.log(err))
+  }, [])
 
   return (
     <main className="main">
@@ -57,16 +58,19 @@ function Main({onEditAvatar, onEditProfile, onAddPlace}) {
           <h2 className="profile__about">{userDescription}</h2>
         </div>
         <button
-        type="button"
-        className="profile__add-button"
-        onClick={onAddPlace}
+          type="button"
+          className="profile__add-button"
+          onClick={onAddPlace}
         >
         </button>
       </section>
       <section className="elements-container">
         <ul className="elements">
           {
-            cards.map(({id, ...props}) => <Card key={id} {...props} />)
+            cards.map(({id, ...props}) => <Card key={id} {...props}
+            card={ {id, ...props} }
+            onCardClick={onCardClick}
+            />)
           }
         </ul>
       </section>

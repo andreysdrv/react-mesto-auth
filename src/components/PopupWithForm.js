@@ -8,9 +8,9 @@ function PopupWithForm(props) {
           <button type="submit" className="popup__button">Сохранить</button>
         </form>
         <button
-        type="button"
-        className="popup__close-button"
-        onClick={props.onClose}
+          type="button"
+          className="popup__close-button"
+          onClick={props.onClose}
         >
         </button>
       </div>  
