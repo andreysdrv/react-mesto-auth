@@ -24,7 +24,7 @@
 
 [Макет](https://www.figma.com/file/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0%3A1)
 <br />
-[Проект](https://totalretard.github.io/mesto/)
+[Проект](https://totalretard.github.io/mesto-react/)
 
 ---
 
