@@ -8,16 +8,16 @@ function Card(props) {
   return(
     <li className="elements__card">
       <img
-        src={props.link}
+        src={props.card.link}
         className="elements__image"
-        alt={props.name}
+        alt={props.card.name}
         onClick={handleCardClick}
       />
       <div className="elements__title-wrapper">
-        <h2 className="elements__title">{props.name}</h2>
+        <h2 className="elements__title">{props.card.name}</h2>
         <div className="elements__like-wrapper">
           <button type="button" className="elements__like-button"></button>
-          <span className="elements__like-count">{props.likes.length}</span>
+          <span className="elements__like-count">{props.card.likes.length}</span>
         </div>
       </div>
       <button className="elements__remove-button"></button>
