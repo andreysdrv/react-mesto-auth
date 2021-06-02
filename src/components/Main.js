@@ -5,7 +5,7 @@ import { CurrentUserContext } from './contexts/CurrentUserContext'
 
 function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
   const [cards, setCards] = React.useState([])
-  const userInfo = React.useContext(CurrentUserContext)
+  const currentUser = React.useContext(CurrentUserContext)
 
   React.useEffect(() => {
     api.getInitialCards()
@@ -15,12 +15,19 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
       .catch((err) => console.log(err))
   }, [])
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
+    })
+  }
+
   return (
     <main className="main">
       <section className="profile">
         <div className="profile__avatar-wrapper">
           <img
-            src={userInfo.avatar}
+            src={currentUser.avatar}
             alt="Изображение профиля"
             className="profile__avatar"
           />
@@ -33,7 +40,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
         </div>
         <div className="profile__info">
           <div className="profile__container">
-            <h1 className="profile__name">{userInfo.name}</h1>
+            <h1 className="profile__name">{currentUser.name}</h1>
             <button
               type="button"
               className="profile__edit-button"
@@ -41,7 +48,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
             >
             </button>
           </div>
-          <h2 className="profile__about">{userInfo.about}</h2>
+          <h2 className="profile__about">{currentUser.about}</h2>
         </div>
         <button
           type="button"
@@ -56,6 +63,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
             cards.map((card) => <Card key={card._id}
             card={card}
             onCardClick={onCardClick}
+            onCardLike={handleCardLike}
             />)
           }
         </ul>
