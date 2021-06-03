@@ -6,6 +6,7 @@ import PopupWithForm from './PopupWithForm'
 import ImagePopup from './ImagePopup'
 import { api } from '../utils/Api'
 import { CurrentUserContext } from './contexts/CurrentUserContext'
+import EditProfilePopup from './EditProfilePopup'
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false)
@@ -37,6 +38,16 @@ function App() {
     setSelectedCard(card)
   }
 
+  function onUpdateUser(userData) {
+    api.setUserInfoApi(userData)
+      .then((data) => {
+        console.log(data)
+        setCurrentUser(data)
+        closeAllPopups()
+      })
+      .catch((err) => console.log(err))
+  }
+
   React.useEffect(() => {
     api.getUserInfo()
       .then((data) => {
@@ -56,37 +67,11 @@ function App() {
           onCardClick={onCardClick}
         />
         <Footer />
-        <PopupWithForm
-          name='profile-edit'
-          title='Редактировать профиль'
-          buttonText='Сохранить'
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-        >
-          <input
-            name="userName"
-            type="text"
-            className="popup__input popup__input_data_name"
-            id="userName-input"
-            placeholder="Имя"
-            minLength="2"
-            maxLength="40" pattern="^[a-zA-Zа-яА-я-\s]+$"
-            required
-          />
-          <span className="popup__input-error userName-input-error"></span>
-          <input
-            name="userAbout"
-            type="text"
-            className="popup__input popup__input_data_about"
-            id="userAbout-input"
-            placeholder="Профессия"
-            minLength="2"
-            pattern="^[a-zA-Zа-яА-я-\s]+$"
-            maxLength="200"
-            required
-          />
-          <span className="popup__input-error userAbout-input-error"></span>
-        </PopupWithForm>
+          onUpdateUser={onUpdateUser}
+        />
         <PopupWithForm
           name='card-add'
           title='Новое место'
