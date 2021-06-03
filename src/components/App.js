@@ -7,6 +7,7 @@ import ImagePopup from './ImagePopup'
 import { api } from '../utils/Api'
 import { CurrentUserContext } from './contexts/CurrentUserContext'
 import EditProfilePopup from './EditProfilePopup'
+import EditAvatarPopup from './EditAvatarPopup'
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false)
@@ -41,7 +42,15 @@ function App() {
   function onUpdateUser(userData) {
     api.setUserInfoApi(userData)
       .then((data) => {
-        console.log(data)
+        setCurrentUser(data)
+        closeAllPopups()
+      })
+      .catch((err) => console.log(err))
+  }
+
+  function onUpdateAvatar(userData) {
+    api.handleUserAvatar(userData)
+      .then((data) => {
         setCurrentUser(data)
         closeAllPopups()
       })
@@ -101,23 +110,11 @@ function App() {
           />
           <span className="popup__input-error placeUrl-input-error"></span>        
         </PopupWithForm>
-        <PopupWithForm
-          name='avatar-edit'
-          title='Обновить аватар'
-          buttonText='Сохранить'
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-        >
-          <input
-            name="userAvatar"
-            type="url"
-            className="popup__input popup__input_data_about"
-            id="userAvatar-input"
-            placeholder="Ссылка на картинку"
-            required
-          />
-          <span className="popup__input-error userAvatar-input-error"></span>
-        </PopupWithForm>
+          onUpdateAvatar={onUpdateAvatar}
+        />
         <PopupWithForm
           name='confirm-delete'
           title='Вы уверены?'
