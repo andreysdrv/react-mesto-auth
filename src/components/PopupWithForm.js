@@ -13,9 +13,9 @@ function PopupWithForm(props) {
           <button
             type="submit"
             className="popup__button"
-            >
-              {props.buttonText}
-            </button>
+          >
+            {props.buttonText}
+          </button>
         </form>
         <button
           type="button"
