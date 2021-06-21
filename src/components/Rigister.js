@@ -1,11 +1,10 @@
-import React from 'react'
-import * as auth from '../utils/auth'
+import React, { useState } from 'react'
 import Form from './Form'
 
 export default function Register({ isOpen, onRegister }) {
 
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   function handleChange(e) {
     const {value} = e.target

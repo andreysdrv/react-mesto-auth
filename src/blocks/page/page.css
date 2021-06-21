@@ -2,6 +2,7 @@
 /*   margin: 0 auto;
   max-width: 880px; */
   background-color: #000;
+  min-height: 100vh;
 }
 /* 
 @media screen and (max-width: 915px) {

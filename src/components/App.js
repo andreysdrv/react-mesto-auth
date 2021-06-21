@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, useHistory } from 'react-router-dom'
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer'
@@ -16,7 +16,11 @@ import Register from './Rigister'
 import * as auth from '../utils/auth'
 
 function App() {
+  const history = useHistory()
+
   const [loggedIn, setLoggedIn] = useState(false)
+  
+  const [email, setEmail] = useState('')
 
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false)
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false)
@@ -108,17 +112,60 @@ function App() {
       .catch((err) => console.log(err))
   }, [])
 
+  useEffect(() => {
+    tokenCheck()
+  })
+
+  function tokenCheck() {
+    const jwt = localStorage.getItem('jwt')
+
+    if(jwt) {
+      auth.getContent(jwt)
+        .then((res) => {
+          if(res) {
+            setLoggedIn(true)
+            setEmail(res.data.email)
+          }
+        })
+        history.push('/')
+    }
+  }
+
   function handleRegistration(password, email) {
     auth.register(password, email)
-      .then(() => {
-        alert('qwefqwfqfwqfqwfewfq')
+      .then((result) => {
+        setEmail(result.data.email)
+        alert('Вы успешно зарегистрировались :)')
       })
+      .catch((err) => alert(err, 'Что-то пошло не так :('))
+  }
+
+  function handleAuth(password, email) {
+    auth.authorize(password, email)
+      .then((token) => {
+        auth.getContent(token)
+          .then((res) => {
+            setEmail(res.data.email)
+            setLoggedIn(true)
+          })
+      })
+      .catch((err) => console.log(err))
+  }
+
+  function onSignOut() {
+    localStorage.removeItem('jwt')
+    setLoggedIn(false)
+    history.push('/sign-up')
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header
+          loggedIn={loggedIn}
+          email={email}
+          onSignOut={onSignOut}
+        />
         <Switch>
           <ProtectedRoute
             exact path='/'
@@ -139,7 +186,10 @@ function App() {
             />
           </Route>
           <Route path='/sign-up'>
-            <Login isOpen={isEditProfilePopupOpen} />
+            <Login
+              isOpen={isEditProfilePopupOpen}
+              onAuth={handleAuth}
+            />
           </Route>
         </Switch>
         <Footer />

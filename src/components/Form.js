@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 export default function Form (
 {
@@ -29,7 +30,7 @@ export default function Form (
           </button>
           {
             formName === 'register' &&
-            <span className='popup__subtext'>Уже зарегистрированы? Войти</span>
+            <Link className='popup__subtext' to='/sign-up'>Уже зарегистрированы? Войти</Link>
           }
         </form>
       </div>

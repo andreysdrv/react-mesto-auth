@@ -22,6 +22,12 @@ export const authorize = (password, email) => {
     body: JSON.stringify({password, email})
   })
   .then(handleResponse)
+  .then((data) => {
+    if (data.token) {
+      localStorage.setItem('jwt', data.token)
+      return data.token
+    }
+  })
 }
 
 export const getContent = token => {
@@ -33,5 +39,5 @@ export const getContent = token => {
     }
   })
   .then(handleResponse)
-  .then(res => console.log(res))
+  // .then(res => console.log(res))
 }

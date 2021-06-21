@@ -5,4 +5,11 @@
   line-height: 16.94px;
   color: #fff;
   text-align: center;
+  text-decoration: none;
+  transition: .2s;
+}
+
+.popup__subtext:hover {
+  opacity: .6;
+  cursor: pointer;
 }

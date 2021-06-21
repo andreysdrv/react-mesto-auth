@@ -1,8 +1,7 @@
 import React from 'react'
-import * as auth from '../utils/auth'
 import Form from './Form'
 
-export default function Register({ isOpen }) {
+export default function Register({ isOpen, onAuth }) {
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -12,11 +11,16 @@ export default function Register({ isOpen }) {
     e.target.name === 'Email' ? setEmail(value) : setPassword(value)
   }
 
+  function handleSubmit(e) {
+    e.preventDefault()
+    onAuth(password, email)
+  }
+
   return (
     <div className='login'>
       <Form
         formName='login'
-        // onSubmit={onSubmit}
+        onSubmit={handleSubmit}
         title='Вход'
         buttonText='Войти'
         isModal={false}
