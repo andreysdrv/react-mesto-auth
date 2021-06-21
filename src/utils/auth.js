@@ -33,4 +33,5 @@ export const getContent = token => {
     }
   })
   .then(handleResponse)
+  .then(res => console.log(res))
 }

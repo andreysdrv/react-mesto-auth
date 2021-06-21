@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Header from './Header'
 import Main from './Main'
@@ -13,16 +13,17 @@ import AddPlacePopup from './AddPlacePopup'
 import ProtectedRoute from './ProtectedRoute';
 import Login from './Login'
 import Register from './Rigister'
+import * as auth from '../utils/auth'
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
 
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false)
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false)
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false)
-  const [selectedCard, setSelectedCard] = React.useState(null)
-  const [cards, setCards] = React.useState([])
-  const [currentUser, setCurrentUser] = React.useState({})
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false)
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false)
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false)
+  const [selectedCard, setSelectedCard] = useState(null)
+  const [cards, setCards] = useState([])
+  const [currentUser, setCurrentUser] = useState({})
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true)
@@ -91,7 +92,7 @@ function App() {
       .catch((err) => console.log(err))
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     api.getInitialCards()
       .then((data) => {
         setCards(data)
@@ -99,13 +100,20 @@ function App() {
       .catch((err) => console.log(err))
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     api.getUserInfo()
       .then((data) => {
         setCurrentUser(data)
       })
       .catch((err) => console.log(err))
   }, [])
+
+  function handleRegistration(password, email) {
+    auth.register(password, email)
+      .then(() => {
+        alert('qwefqwfqfwqfqwfewfq')
+      })
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -125,7 +133,13 @@ function App() {
             cards={cards}
           />
           <Route path='/sign-in'>
-            <Register />
+            <Register
+              isOpen={isEditProfilePopupOpen}
+              onRegister={handleRegistration}
+            />
+          </Route>
+          <Route path='/sign-up'>
+            <Login isOpen={isEditProfilePopupOpen} />
           </Route>
         </Switch>
         <Footer />
