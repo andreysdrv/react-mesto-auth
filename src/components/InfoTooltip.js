@@ -1,9 +1,14 @@
 import PopupWithForm from "./PopupWithForm"
 
-export default function InfoTooltip() {
+export default function InfoTooltip({ isOpen, onClose, name, title, imgPath }) {
   return (
-    <PopupWithForm>
-      
+    <PopupWithForm
+      isOpen={isOpen}
+      onClose={onClose}
+      name={name}
+      title={title}
+      imgPath={imgPath}
+    >
     </PopupWithForm>
   )
 }

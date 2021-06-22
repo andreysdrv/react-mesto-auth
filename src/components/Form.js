@@ -15,7 +15,7 @@ export default function Form (
     <div className={`popup ${isModal ? (isOpen ? 'popup_opened' : '') : 'popup_type_auth'}`}>
       <div className={`${isModal ? 'popup__container' : ''} popup__overlay`}>
         <form
-          className="popup__form"
+          className={`popup__form ${formName === 'login' ? 'popup__form_type_auth' : (formName === 'register' ? 'popup__form_type_auth' : '')} `}
           name={formName}
           noValidate
           onSubmit={onSubmit}
