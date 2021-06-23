@@ -1,6 +1,6 @@
-import React from 'react'
-// import PopupWithForm from './PopupWithForm'
-import Form from './Form'
+import React, { useEffect } from 'react'
+import PopupWithForm from './PopupWithForm'
+// import Form from './Form'
 
 function AddPlacePopup({ isOpen, onAddPlace, onClose }) {
   const [name, setName] = React.useState('')
@@ -22,12 +22,18 @@ function AddPlacePopup({ isOpen, onAddPlace, onClose }) {
     })
   }
 
+  useEffect(() => {
+    setName('')
+    setLink('')
+  }, [isOpen])
+
   return (
-    <Form
+    <PopupWithForm
       name='card-add'
       title='Новое место'
       buttonText='Создать'
       isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
       isModal={true}
     >
@@ -42,6 +48,7 @@ function AddPlacePopup({ isOpen, onAddPlace, onClose }) {
         pattern="^[a-zA-Zа-яА-я-\s]+$"
         required
         onChange={handleNameChange}
+        value={name}
       />
       <span className="popup__input-error placeName-input-error"></span>
       <input
@@ -52,15 +59,16 @@ function AddPlacePopup({ isOpen, onAddPlace, onClose }) {
         placeholder="Ссылка на картинку"
         required
         onChange={handleLinkChange}
+        value={link}
       />
       <span className="popup__input-error placeUrl-input-error"></span>
-      <button
+      {/* <button
         type="button"
         className="popup__close-button"
         onClick={onClose}
       >
-      </button>        
-    </Form>
+      </button>         */}
+    </PopupWithForm>
   )
 }
 

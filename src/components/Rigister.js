@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Form from './Form'
+import AuthPage from './AuthPage'
 
-export default function Register({ isOpen, onRegister }) {
+export default function Register({ onRegister }) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -18,13 +18,11 @@ export default function Register({ isOpen, onRegister }) {
 
   return (
     <div className='register'>
-      <Form
+      <AuthPage
         formName='register'
         onSubmit={handleSubmit}
         title='Регистрация'
         buttonText='Зарегистрироваться'
-        isModal={false}
-        isOpen={isOpen}
       >
         <input
           name="Email"
@@ -52,7 +50,7 @@ export default function Register({ isOpen, onRegister }) {
           onChange={handleChange}
         />
         {/* <span className="popup__input-error userAbout-input-error"></span> */}
-      </Form>
+      </AuthPage>
     </div>
   )
 }

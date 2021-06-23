@@ -121,7 +121,7 @@ function App() {
 
   useEffect(() => {
     tokenCheck()
-  })
+  }, [])
 
   function tokenCheck() {
     const jwt = localStorage.getItem('jwt')
@@ -132,9 +132,10 @@ function App() {
           if(res) {
             setLoggedIn(true)
             setEmail(res.data.email)
+            history.push('/')
           }
         })
-        history.push('/')
+        .catch((err) => console.log(err))
     }
   }
 
@@ -143,10 +144,9 @@ function App() {
       .then((result) => {
         setEmail(result.data.email)
         setMessage({ imgPath: success, text: 'Вы успешно зарегистрировались!' })
-        setIsInfoTooltipOpen(true)
       })
       .catch(() => setMessage({ imgPath: unSuccess, text: 'Что-то пошло не так! Попробуйте ещё раз.' }))
-      setIsInfoTooltipOpen(true)
+      .finally(() => setIsInfoTooltipOpen(true))
   }
 
   function handleAuth(password, email) {
@@ -156,6 +156,7 @@ function App() {
           .then((res) => {
             setEmail(res.data.email)
             setLoggedIn(true)
+            history.push('/')
           })
       })
       .catch((err) => console.log(err))
@@ -167,7 +168,7 @@ function App() {
   }
 
   return (
-    <CurrentUserContext.Provider value={currentUser || ''}>
+    <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header
           loggedIn={loggedIn}

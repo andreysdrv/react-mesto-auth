@@ -1,7 +1,7 @@
 import React from 'react'
-import Form from './Form'
+import AuthPage from './AuthPage'
 
-export default function Register({ isOpen, onAuth }) {
+export default function Register({ onAuth }) {
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -18,13 +18,11 @@ export default function Register({ isOpen, onAuth }) {
 
   return (
     <div className='login'>
-      <Form
+      <AuthPage
         formName='login'
         onSubmit={handleSubmit}
         title='Вход'
         buttonText='Войти'
-        isModal={false}
-        isOpen={isOpen}
       >
         <input
           name="Email"
@@ -52,7 +50,7 @@ export default function Register({ isOpen, onAuth }) {
           onChange={handleChange}
         />
         {/* <span className="popup__input-error userAbout-input-error"></span> */}
-      </Form>
+      </AuthPage>
     </div>
   )
 }
